@@ -4,7 +4,7 @@ const base: DrawSeedInput = {
   userId: 'user-123',
   question: 'Will the new job suit me?',
   spreadId: 'three-card',
-  drawnAt: new Date('2026-09-21T09:00:00.000Z'),
+  askedAt: new Date('2026-09-21T09:00:00.000Z'),
 };
 
 describe('createDrawSeed', () => {
@@ -22,7 +22,7 @@ describe('createDrawSeed', () => {
     expect(
       createDrawSeed({
         ...base,
-        drawnAt: new Date('2026-09-21T23:59:59.999Z'),
+        askedAt: new Date('2026-09-21T23:59:59.999Z'),
       }),
     ).toBe(createDrawSeed(base));
   });
@@ -31,7 +31,7 @@ describe('createDrawSeed', () => {
     expect(
       createDrawSeed({
         ...base,
-        drawnAt: new Date('2026-09-22T00:00:00.000Z'),
+        askedAt: new Date('2026-09-22T00:00:00.000Z'),
       }),
     ).not.toBe(createDrawSeed(base));
   });
