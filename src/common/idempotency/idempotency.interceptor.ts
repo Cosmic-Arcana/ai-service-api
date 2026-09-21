@@ -126,7 +126,11 @@ export class IdempotencyInterceptor implements NestInterceptor {
 
     return {
       key,
-      fingerprint: fingerprintOf([request.method, request.route?.path ?? request.path, request.body]),
+      fingerprint: fingerprintOf([
+        request.method,
+        request.route?.path ?? request.path,
+        request.body,
+      ]),
     };
   }
 }

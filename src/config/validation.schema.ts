@@ -16,7 +16,9 @@ export const validationSchema = Joi.object({
   // environment itself. Outside production the SDK can fall back to an `ant auth login` profile.
   ANTHROPIC_API_KEY: Joi.string().when('NODE_ENV', { is: 'production', then: Joi.required() }),
   AI_MODEL: Joi.string().default('claude-opus-5'),
-  AI_EFFORT: Joi.string().valid(...AI_EFFORT_LEVELS).default('high'),
+  AI_EFFORT: Joi.string()
+    .valid(...AI_EFFORT_LEVELS)
+    .default('high'),
 
   RETRY_MAX_ATTEMPTS: Joi.number().integer().min(1).max(10).default(3),
   RETRY_INITIAL_DELAY_MS: Joi.number().integer().min(0).default(200),
@@ -25,7 +27,10 @@ export const validationSchema = Joi.object({
   RETRY_JITTER_RATIO: Joi.number().min(0).max(1).default(0.3),
   RETRY_TIMEOUT_MS: Joi.number().integer().min(100).default(5_000),
 
-  IDEMPOTENCY_TTL_MS: Joi.number().integer().min(1_000).default(24 * 60 * 60 * 1_000),
+  IDEMPOTENCY_TTL_MS: Joi.number()
+    .integer()
+    .min(1_000)
+    .default(24 * 60 * 60 * 1_000),
   IDEMPOTENCY_SWEEP_INTERVAL_MS: Joi.number().integer().min(1_000).default(60_000),
   IDEMPOTENCY_MAX_ENTRIES: Joi.number().integer().min(1).default(10_000),
 

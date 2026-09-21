@@ -6,5 +6,4 @@ export const AI_MESSAGE_PATTERNS = {
   health: 'ai.health.check',
 } as const;
 
-export type AiMessagePattern =
-  (typeof AI_MESSAGE_PATTERNS)[keyof typeof AI_MESSAGE_PATTERNS];
+export type AiMessagePattern = (typeof AI_MESSAGE_PATTERNS)[keyof typeof AI_MESSAGE_PATTERNS];

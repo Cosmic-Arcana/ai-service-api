@@ -1,10 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  Logger,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import type { Request, Response } from 'express';
 import type { MessageEnvelope } from '../messaging/message-envelope';
@@ -19,7 +13,12 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: () => this.logger.log('inbound handled', { ...base, ...this.timing(startedAt), outcome: 'success' }),
+        next: () =>
+          this.logger.log('inbound handled', {
+            ...base,
+            ...this.timing(startedAt),
+            outcome: 'success',
+          }),
         error: (error: Error) =>
           this.logger.error('inbound failed', {
             ...base,

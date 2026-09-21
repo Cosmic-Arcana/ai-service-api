@@ -19,7 +19,10 @@ interface StoredRecord {
 }
 
 export const fingerprintOf = (parts: unknown): string =>
-  createHash('sha256').update(JSON.stringify(parts ?? null)).digest('hex').slice(0, 32);
+  createHash('sha256')
+    .update(JSON.stringify(parts ?? null))
+    .digest('hex')
+    .slice(0, 32);
 
 /**
  * Deliberately in-process: there is no Redis yet, so idempotency guarantees hold per
@@ -65,7 +68,10 @@ export class IdempotencyStore implements OnModuleInit, OnApplicationShutdown {
    * Reserve-or-return in one step: concurrent duplicates must never both see an empty slot,
    * which is why this is not a get() followed by a set().
    */
-  reserve(key: string, fingerprint: string): { reserved: true } | { reserved: false; existing: IdempotencyRecord } {
+  reserve(
+    key: string,
+    fingerprint: string,
+  ): { reserved: true } | { reserved: false; existing: IdempotencyRecord } {
     const existing = this.get(key);
     if (existing) {
       return { reserved: false, existing };

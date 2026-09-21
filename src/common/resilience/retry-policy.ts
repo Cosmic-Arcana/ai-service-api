@@ -22,7 +22,12 @@ export const isRetryableError = (error: unknown): boolean => {
     return false;
   }
 
-  const candidate = error as { code?: string; status?: number; response?: { status?: number }; name?: string };
+  const candidate = error as {
+    code?: string;
+    status?: number;
+    response?: { status?: number };
+    name?: string;
+  };
 
   if (candidate.name === 'TimeoutError') {
     return true;
