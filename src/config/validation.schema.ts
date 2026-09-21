@@ -1,23 +1,22 @@
 import * as Joi from 'joi';
+import { AI_EFFORT_LEVELS } from './configuration';
 
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
   LOG_LEVEL: Joi.string().valid('error', 'warn', 'log', 'debug', 'verbose').default('log'),
 
-  HTTP_PORT: Joi.number().port().default(3002),
+  HTTP_PORT: Joi.number().port().default(3001),
   TCP_HOST: Joi.string().hostname().default('127.0.0.1'),
-  TCP_PORT: Joi.number().port().default(4002),
+  TCP_PORT: Joi.number().port().default(4001),
 
-  NASA_API_BASE_URL: Joi.string().uri({ scheme: ['http', 'https'] }).default('https://api.nasa.gov'),
+  NASA_SERVICE_TCP_HOST: Joi.string().hostname().default('127.0.0.1'),
+  NASA_SERVICE_TCP_PORT: Joi.number().port().default(4002),
 
-  // DEMO_KEY is NASA's shared public key: heavily rate limited, so it is refused outside development.
-  NASA_API_KEY: Joi.string()
-    .min(1)
-    .required()
-    .when('NODE_ENV', {
-      is: 'production',
-      then: Joi.string().disallow('DEMO_KEY').min(16),
-    }),
+  // Validated here but deliberately not loaded into config: the Anthropic SDK reads it from the
+  // environment itself. Outside production the SDK can fall back to an `ant auth login` profile.
+  ANTHROPIC_API_KEY: Joi.string().when('NODE_ENV', { is: 'production', then: Joi.required() }),
+  AI_MODEL: Joi.string().default('claude-opus-5'),
+  AI_EFFORT: Joi.string().valid(...AI_EFFORT_LEVELS).default('high'),
 
   RETRY_MAX_ATTEMPTS: Joi.number().integer().min(1).max(10).default(3),
   RETRY_INITIAL_DELAY_MS: Joi.number().integer().min(0).default(200),

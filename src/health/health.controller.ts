@@ -6,7 +6,7 @@ import {
   HealthCheckService,
   MemoryHealthIndicator,
 } from '@nestjs/terminus';
-import { NASA_MESSAGE_PATTERNS } from '../common/messaging/message-patterns';
+import { AI_MESSAGE_PATTERNS } from '../common/messaging/ai-message-patterns';
 
 const HEAP_LIMIT_BYTES = 512 * 1024 * 1024;
 
@@ -29,7 +29,7 @@ export class HealthController {
     return this.health.check([() => this.memory.checkHeap('memory_heap', HEAP_LIMIT_BYTES)]);
   }
 
-  @MessagePattern(NASA_MESSAGE_PATTERNS.health)
+  @MessagePattern(AI_MESSAGE_PATTERNS.health)
   checkOverTcp(@Payload() _payload: unknown): { status: string } {
     return { status: 'ok' };
   }
