@@ -1,4 +1,5 @@
 import { SeededRandom } from './seeded-random';
+import { shuffle, ShuffleAlgorithm } from './shuffle-algorithms';
 import type { TarotCard } from './tarot-card';
 import { TAROT_DECK } from './tarot-deck';
 import type { SpreadPosition, TarotSpread } from './tarot-spread';
@@ -9,13 +10,17 @@ export interface DrawnCard {
   reversed: boolean;
 }
 
-export const drawCards = (spread: TarotSpread, seed: string): DrawnCard[] => {
+export const drawCards = (
+  spread: TarotSpread,
+  seed: string,
+  algorithm: ShuffleAlgorithm,
+): DrawnCard[] => {
   const random = new SeededRandom(seed);
-  const remaining = [...TAROT_DECK];
+  const deck = shuffle(TAROT_DECK, algorithm, random);
 
-  return spread.positions.map((position) => {
-    const [card] = remaining.splice(random.nextInt(remaining.length), 1);
-
-    return { position, card, reversed: random.nextBoolean() };
-  });
+  return spread.positions.map((position, index) => ({
+    position,
+    card: deck[index],
+    reversed: random.nextBoolean(),
+  }));
 };

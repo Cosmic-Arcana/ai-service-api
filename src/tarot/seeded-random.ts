@@ -33,7 +33,7 @@ export class SeededRandom {
     return this.nextInt(2) === 1;
   }
 
-  private nextUint32(): number {
+  nextUint32(): number {
     const digest = createHash('sha256').update(`${this.seed}:${this.counter}`).digest();
     this.counter += 1;
 
