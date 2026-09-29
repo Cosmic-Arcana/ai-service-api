@@ -16,6 +16,11 @@ import {
 import type { MessageEnvelope } from '../messaging/message-envelope';
 import { fingerprintOf, IdempotencyStore } from './idempotency-store.service';
 
+function expressRoutePath(request: Request): string {
+  const route = request.route as { path?: unknown } | undefined;
+  return typeof route?.path === 'string' ? route.path : request.path;
+}
+
 interface RequestIdentity {
   key: string;
   fingerprint: string;
@@ -126,11 +131,7 @@ export class IdempotencyInterceptor implements NestInterceptor {
 
     return {
       key,
-      fingerprint: fingerprintOf([
-        request.method,
-        request.route?.path ?? request.path,
-        request.body,
-      ]),
+      fingerprint: fingerprintOf([request.method, expressRoutePath(request), request.body]),
     };
   }
 }

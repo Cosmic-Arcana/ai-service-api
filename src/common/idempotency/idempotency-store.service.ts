@@ -108,9 +108,9 @@ export class IdempotencyStore implements OnModuleInit, OnApplicationShutdown {
     if (this.records.size < this.config.maxEntries) {
       return;
     }
-    const oldestKey = this.records.keys().next().value;
-    if (oldestKey !== undefined) {
-      this.records.delete(oldestKey);
+    const oldest = this.records.keys().next();
+    if (!oldest.done) {
+      this.records.delete(oldest.value);
       this.logger.warn('idempotency store full, evicted oldest entry', {
         context: IdempotencyStore.name,
         maxEntries: this.config.maxEntries,

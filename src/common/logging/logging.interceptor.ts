@@ -3,6 +3,11 @@ import { Observable, tap } from 'rxjs';
 import type { Request, Response } from 'express';
 import type { MessageEnvelope } from '../messaging/message-envelope';
 
+function expressRoutePath(request: Request): string {
+  const route = request.route as { path?: unknown } | undefined;
+  return typeof route?.path === 'string' ? route.path : request.path;
+}
+
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
@@ -50,7 +55,7 @@ export class LoggingInterceptor implements NestInterceptor {
     return {
       transport: 'http',
       method: request.method,
-      route: request.route?.path ?? request.path,
+      route: expressRoutePath(request),
       statusCode: response.statusCode,
     };
   }

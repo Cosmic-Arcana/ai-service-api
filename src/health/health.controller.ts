@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import {
   HealthCheck,
   HealthCheckResult,
@@ -30,7 +30,7 @@ export class HealthController {
   }
 
   @MessagePattern(AI_MESSAGE_PATTERNS.health)
-  checkOverTcp(@Payload() _payload: unknown): { status: string } {
+  checkOverTcp(): { status: string } {
     return { status: 'ok' };
   }
 }
