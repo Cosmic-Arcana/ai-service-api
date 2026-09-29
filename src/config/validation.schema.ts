@@ -19,6 +19,7 @@ export const validationSchema = Joi.object({
   AI_EFFORT: Joi.string()
     .valid(...AI_EFFORT_LEVELS)
     .default('high'),
+  AI_TIMEOUT_MS: Joi.number().integer().min(1_000).default(60_000),
 
   RETRY_MAX_ATTEMPTS: Joi.number().integer().min(1).max(10).default(3),
   RETRY_INITIAL_DELAY_MS: Joi.number().integer().min(0).default(200),

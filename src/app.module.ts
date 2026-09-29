@@ -11,6 +11,7 @@ import { IdempotencyInterceptor } from './common/idempotency/idempotency.interce
 import { LoggingInterceptor } from './common/logging/logging.interceptor';
 import { HealthModule } from './health/health.module';
 import { TarotModule } from './tarot/tarot.module';
+import { PredictionModule } from './prediction/prediction.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TarotModule } from './tarot/tarot.module';
     CommonModule,
     HealthModule,
     TarotModule,
+    PredictionModule,
   ],
   providers: [
     // Order matters: correlation must be established before anything logs or dedupes.
