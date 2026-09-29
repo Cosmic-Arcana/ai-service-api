@@ -10,6 +10,7 @@ import { IdempotencyMiddleware } from './common/idempotency/idempotency.middlewa
 import { IdempotencyInterceptor } from './common/idempotency/idempotency.interceptor';
 import { LoggingInterceptor } from './common/logging/logging.interceptor';
 import { HealthModule } from './health/health.module';
+import { TarotModule } from './tarot/tarot.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HealthModule } from './health/health.module';
     }),
     CommonModule,
     HealthModule,
+    TarotModule,
   ],
   providers: [
     // Order matters: correlation must be established before anything logs or dedupes.
