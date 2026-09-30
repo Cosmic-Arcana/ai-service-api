@@ -1,4 +1,5 @@
-import { Injectable, LoggerService, LogLevel, Scope } from '@nestjs/common';
+import { Injectable, LoggerService, Scope } from '@nestjs/common';
+import type { LogLevel } from '@nestjs/common';
 import { inspect } from 'node:util';
 import { getCorrelationId } from '../correlation/correlation.storage';
 

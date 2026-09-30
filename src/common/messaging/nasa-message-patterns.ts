@@ -5,5 +5,4 @@ export const NASA_MESSAGE_PATTERNS = {
   health: 'nasa.health.check',
 } as const;
 
-export type NasaMessagePattern =
-  (typeof NASA_MESSAGE_PATTERNS)[keyof typeof NASA_MESSAGE_PATTERNS];
+export type NasaMessagePattern = (typeof NASA_MESSAGE_PATTERNS)[keyof typeof NASA_MESSAGE_PATTERNS];

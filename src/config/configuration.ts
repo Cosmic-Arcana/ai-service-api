@@ -13,6 +13,10 @@ export interface IdempotencyConfig {
   maxEntries: number;
 }
 
+export const AI_EFFORT_LEVELS = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
+
+export type AiEffort = (typeof AI_EFFORT_LEVELS)[number];
+
 export interface AppConfig {
   serviceName: string;
   nodeEnv: string;
@@ -20,7 +24,12 @@ export interface AppConfig {
   http: { port: number };
   tcp: { host: string; port: number };
   nasaService: { host: string; port: number };
-  aiProvider: { apiKey: string; model: string };
+  anthropic: {
+    model: string;
+    effort: AiEffort;
+    timeoutMs: number;
+    interpreter: 'stub' | 'anthropic';
+  };
   retry: RetryConfig;
   idempotency: IdempotencyConfig;
   shutdownGraceMs: number;
@@ -36,9 +45,11 @@ export const configuration = (): AppConfig => ({
     host: process.env.NASA_SERVICE_TCP_HOST as string,
     port: Number(process.env.NASA_SERVICE_TCP_PORT),
   },
-  aiProvider: {
-    apiKey: process.env.AI_PROVIDER_API_KEY as string,
+  anthropic: {
     model: process.env.AI_MODEL as string,
+    effort: process.env.AI_EFFORT as AiEffort,
+    timeoutMs: Number(process.env.AI_TIMEOUT_MS),
+    interpreter: process.env.AI_INTERPRETER as 'stub' | 'anthropic',
   },
   retry: {
     maxAttempts: Number(process.env.RETRY_MAX_ATTEMPTS),

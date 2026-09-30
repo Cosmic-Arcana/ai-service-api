@@ -1,13 +1,12 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  Logger,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import type { Request, Response } from 'express';
 import type { MessageEnvelope } from '../messaging/message-envelope';
+
+function expressRoutePath(request: Request): string {
+  const route = request.route as { path?: unknown } | undefined;
+  return typeof route?.path === 'string' ? route.path : request.path;
+}
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -19,7 +18,12 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: () => this.logger.log('inbound handled', { ...base, ...this.timing(startedAt), outcome: 'success' }),
+        next: () =>
+          this.logger.log('inbound handled', {
+            ...base,
+            ...this.timing(startedAt),
+            outcome: 'success',
+          }),
         error: (error: Error) =>
           this.logger.error('inbound failed', {
             ...base,
@@ -51,7 +55,7 @@ export class LoggingInterceptor implements NestInterceptor {
     return {
       transport: 'http',
       method: request.method,
-      route: request.route?.path ?? request.path,
+      route: expressRoutePath(request),
       statusCode: response.statusCode,
     };
   }
