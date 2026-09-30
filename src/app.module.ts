@@ -10,7 +10,6 @@ import { IdempotencyMiddleware } from './common/idempotency/idempotency.middlewa
 import { IdempotencyInterceptor } from './common/idempotency/idempotency.interceptor';
 import { LoggingInterceptor } from './common/logging/logging.interceptor';
 import { HealthModule } from './health/health.module';
-import { InterpretationModule } from './interpretation/interpretation.module';
 import { TarotModule } from './tarot/tarot.module';
 import { PredictionModule } from './prediction/prediction.module';
 
@@ -26,7 +25,6 @@ import { PredictionModule } from './prediction/prediction.module';
     CommonModule,
     HealthModule,
     TarotModule,
-    InterpretationModule,
     PredictionModule,
   ],
   providers: [

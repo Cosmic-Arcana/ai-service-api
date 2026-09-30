@@ -24,7 +24,12 @@ export interface AppConfig {
   http: { port: number };
   tcp: { host: string; port: number };
   nasaService: { host: string; port: number };
-  anthropic: { model: string; effort: AiEffort; timeoutMs: number };
+  anthropic: {
+    model: string;
+    effort: AiEffort;
+    timeoutMs: number;
+    interpreter: 'stub' | 'anthropic';
+  };
   retry: RetryConfig;
   idempotency: IdempotencyConfig;
   shutdownGraceMs: number;
@@ -44,6 +49,7 @@ export const configuration = (): AppConfig => ({
     model: process.env.AI_MODEL as string,
     effort: process.env.AI_EFFORT as AiEffort,
     timeoutMs: Number(process.env.AI_TIMEOUT_MS),
+    interpreter: process.env.AI_INTERPRETER as 'stub' | 'anthropic',
   },
   retry: {
     maxAttempts: Number(process.env.RETRY_MAX_ATTEMPTS),

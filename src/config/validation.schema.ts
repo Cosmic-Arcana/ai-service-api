@@ -15,6 +15,8 @@ export const validationSchema = Joi.object({
   // Validated here but deliberately not loaded into config: the Anthropic SDK reads it from the
   // environment itself. Outside production the SDK can fall back to an `ant auth login` profile.
   ANTHROPIC_API_KEY: Joi.string().when('NODE_ENV', { is: 'production', then: Joi.required() }),
+  // Default to the stub so nothing bills or varies unless it is asked for explicitly.
+  AI_INTERPRETER: Joi.string().valid('stub', 'anthropic').default('stub'),
   AI_MODEL: Joi.string().default('claude-opus-5'),
   AI_EFFORT: Joi.string()
     .valid(...AI_EFFORT_LEVELS)

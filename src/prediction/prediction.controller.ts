@@ -28,10 +28,15 @@ export class PredictionController {
       question?: unknown;
       cards?: unknown;
     };
-    if (typeof data.question !== 'string' || !Array.isArray(data.cards)) {
+    if (
+      typeof data.question !== 'string' ||
+      data.question.trim() === '' ||
+      !Array.isArray(data.cards) ||
+      data.cards.length === 0
+    ) {
       throw new RpcException({
         code: 'invalid_payload',
-        message: 'question and cards are required',
+        message: 'a reading needs a question and at least one drawn card',
       });
     }
     try {
